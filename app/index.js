@@ -1,5 +1,8 @@
 const generators = require('yeoman-generator');
-
+// TODO let generator take flags for:
+// problem name
+// problem JSON file
+// TODO write parser for JSON file to write tests
 module.exports = generators.Base.extend({
     constructor: function () {
         generators.Base.apply(this, arguments);
