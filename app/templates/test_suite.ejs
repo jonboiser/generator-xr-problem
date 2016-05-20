@@ -1,0 +1,12 @@
+source('./test_<%= problemName %>.R')
+suppressPackageStartupMessages({ require(testthat) })
+
+<% for (var i = 0; i < numTests; i++) { %>
+test_that("count one word", {
+  expect_equal(<%= funcName %>("word"),
+    list("word" = 1)
+  )
+})
+<% } %>
+
+print("All tests passed!")

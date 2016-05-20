@@ -1,0 +1,24 @@
+{
+  "name": "generator-xr-problem",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonboiser/generator-xr-problem.git"
+  },
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jonboiser/generator-xr-problem/issues"
+  },
+  "homepage": "https://github.com/jonboiser/generator-xr-problem#readme",
+  "dependencies": {
+    "yeoman-generator": "^0.23.3"
+  }
+}
