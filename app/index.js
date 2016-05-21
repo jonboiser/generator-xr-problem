@@ -1,4 +1,5 @@
 const generators = require('yeoman-generator');
+const R = require('ramda');
 
 module.exports = generators.Base.extend({
     constructor: function () {
@@ -10,8 +11,9 @@ module.exports = generators.Base.extend({
 
         this.argument('solutionJson', {
           type: String,
-          required: false,
+          required: true,
         });
+
         this.funcName = this.problemName.replace(/-/g, '_')
     },
 
@@ -48,6 +50,15 @@ module.exports = generators.Base.extend({
     // Figure out which key is the input
     _whichKeyIsInput: function(keys) {
         // Filter out description and expected. Seems consistent.
+        return R.difference(keys, ['description', 'expected']);
+    },
+
+    // Convert to R
+    // i.e. [1,2,3] -> c(1,2,3)
+    // ["a","b","c"] -> c("a","b","c")
+    // { a: 1, b: 2 } = list(a=1, b=2)
+    _convertToR: function(obj) {
+
     },
 
     // Create test suite
@@ -57,8 +68,8 @@ module.exports = generators.Base.extend({
         this.destinationPath(`./${this.problemName}/test_${this.problemName}.R`),
         {
           problemName: this.problemName,
-          numTests: 5,
           funcName: this.funcName,
+          args: this._whichKeyIsInput(Object.keys(this.cases[0])),
           cases: this.cases
         }
       )

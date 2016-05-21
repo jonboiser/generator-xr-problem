@@ -1,11 +1,16 @@
 source('./<%= problemName %>.R')
 suppressPackageStartupMessages({ require(testthat) })
-<% for (var i = 0; i < cases.length; i++) { %>
+
+<% for (var i = 0; i < cases.length; i++) { -%>
 test_that("<%= cases[i].description %>", {
-  input <- "<%= cases[i].input %>"
-  expect_equal(<%= funcName %>(input),
-    "<%= cases[i].expected %>"
+<% for (var j = 0; j < args.length; j++) { -%>
+<% var arg = args[j] -%>
+  <%= arg %> <- <%- (JSON.stringify(cases[i][arg])) %>
+<% } -%>
+  expect_equal(<%= funcName %>(<%= args.join(', ') %>),
+    <%- JSON.stringify(cases[i].expected) %>
   )
 })
-<% } %>
+
+<% } -%>
 print("All tests passed!")
