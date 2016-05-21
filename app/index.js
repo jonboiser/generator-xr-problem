@@ -1,19 +1,24 @@
 const generators = require('yeoman-generator');
-// TODO let generator take flags for:
-// problem name
-// problem JSON file
-// TODO write parser for JSON file to write tests
+
 module.exports = generators.Base.extend({
     constructor: function () {
         generators.Base.apply(this, arguments);
-        this.problemName = 'foo-bar';
+        this.argument('problemName', {
+          type: String,
+          required: true,
+        });
+
+        this.argument('problemName', {
+          type: String,
+          required: false,
+        });
     },
 
     // Stub solution
     writeStub: function() {
       this.fs.copyTpl(
         this.templatePath('stub_solution.ejs'),
-        this.destinationPath(`${this.problemName}.R`),
+        this.destinationPath(`./${this.problemName}/${this.problemName}.R`),
         {
           funcName: this.problemName.replace(/-/g, '_')
         }
@@ -24,7 +29,7 @@ module.exports = generators.Base.extend({
     writeExample: function() {
       this.fs.copyTpl(
         this.templatePath('stub_solution.ejs'),
-        this.destinationPath('example.R'),
+        this.destinationPath(`./${this.problemName}/example.R`),
         {
           funcName: this.problemName.replace(/-/g, '_')
         }
@@ -35,7 +40,7 @@ module.exports = generators.Base.extend({
     writeTestSuite: function () {
       this.fs.copyTpl(
         this.templatePath('test_suite.ejs'),
-        this.destinationPath(`test_${this.problemName}.R`),
+        this.destinationPath(`./${this.problemName}/test_${this.problemName}.R`),
         {
           problemName: this.problemName,
           numTests: 5,
