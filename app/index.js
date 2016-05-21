@@ -8,10 +8,11 @@ module.exports = generators.Base.extend({
           required: true,
         });
 
-        this.argument('problemName', {
+        this.argument('solutionJson', {
           type: String,
           required: false,
         });
+        this.funcName = this.problemName.replace(/-/g, '_')
     },
 
     // Stub solution
@@ -20,7 +21,7 @@ module.exports = generators.Base.extend({
         this.templatePath('stub_solution.ejs'),
         this.destinationPath(`./${this.problemName}/${this.problemName}.R`),
         {
-          funcName: this.problemName.replace(/-/g, '_')
+          funcName: this.funcName
         }
       )
     },
@@ -31,12 +32,25 @@ module.exports = generators.Base.extend({
         this.templatePath('stub_solution.ejs'),
         this.destinationPath(`./${this.problemName}/example.R`),
         {
-          funcName: this.problemName.replace(/-/g, '_')
+          funcName: this.funcName
         }
       )
     },
 
-    // Test suite
+    // Parse JSON file of test cases
+    parseJson: function() {
+      if (this.solutionJson) {
+        const solution = this.fs.readJSON(this.solutionJson)
+        this.cases = solution.cases
+      }
+    },
+
+    // Figure out which key is the input
+    _whichKeyIsInput: function(keys) {
+        // Filter out description and expected. Seems consistent.
+    },
+
+    // Create test suite
     writeTestSuite: function () {
       this.fs.copyTpl(
         this.templatePath('test_suite.ejs'),
@@ -44,7 +58,8 @@ module.exports = generators.Base.extend({
         {
           problemName: this.problemName,
           numTests: 5,
-          funcName: 'fooBar'
+          funcName: this.funcName,
+          cases: this.cases
         }
       )
     }
