@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/jonboiser/generator-xr-problem#readme",
   "dependencies": {
+    "ramda": "^0.21.0",
     "yeoman-generator": "^0.23.3"
   }
 }
